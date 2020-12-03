@@ -14,14 +14,21 @@ import { HomeViewModel } from './home.model';
 })
 export class HomeComponent implements OnInit {
   @ViewChild(ProfileEditorComponent, { static: true })
-  profileForm: ProfileEditorComponent;
+  profileForm!: ProfileEditorComponent;
 
-  form: FormGroupTypeSafe<HomeViewModel>;
+  form!: FormGroupTypeSafe<HomeViewModel>;
 
   constructor(private fb: FormBuilderTypeSafe) {}
 
   ngOnInit(): void {
     this.form = this.fb.group<HomeViewModel>({
+      // Error Type 'FormGroupTypeSafe<Profile>' is not assignable to type 'FormControl | FormGroup | FormArray'.
+      // Type 'FormGroupTypeSafe<Profile>' is not assignable to type 'FormGroup'.
+      //   Types of property 'controls' are incompatible.
+      //     Type '{ name: AbstractControlTypeSafe<string>; age?: AbstractControlTypeSafe<string | undefined> | undefined; email: AbstractControlTypeSafe<string>; address: AbstractControlTypeSafe<...>; }' is not assignable to type '{ [key: string]: AbstractControl; }'.
+      //       Property 'age' is incompatible with index signature.
+      //         Type 'AbstractControlTypeSafe<string | undefined> | undefined' is not assignable to type 'AbstractControl'.
+      //           Type 'undefined' is not assignable to type 'AbstractControl'.
       profile: this.profileForm.createGroup(),
     });
   }
@@ -30,6 +37,11 @@ export class HomeComponent implements OnInit {
     // TODO: Use EventEmitter with form value
     console.warn(this.form.value);
   }
+
+  // I am seeing an error If I use getSafe
+  // get profileSafe(): FormGroupTypeSafe<Profile> {
+  //   return this.form.getSafe(f => f.profile) as FormGroupTypeSafe<Profile>;
+  // }
 
   get profile(): FormGroupTypeSafe<Profile> {
     return this.form.get('profile') as FormGroupTypeSafe<Profile>;

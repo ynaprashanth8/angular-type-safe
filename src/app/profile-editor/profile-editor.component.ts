@@ -6,6 +6,7 @@ import {
 } from '../helper/angular-type-safe';
 //Cannot find module 'angular-typesafe-reactive-forms-helper' or its corresponding type declarations.ts(2307)
 // import { FormBuilderTypeSafe } from 'angular-typesafe-reactive-forms-helper'
+
 import { Address } from '../model/address.model';
 import { Profile } from './profile-editor.model';
 
@@ -28,6 +29,15 @@ export class ProfileEditorComponent implements OnInit {
       email: this.fb.control(''),
       // I am seeing the error when I have a Address interface extends a BaseModel interface
       //If I remove the extends inerface it works fine
+      //  Error:     (property) address: FormGroup | FormControl | FormArray
+      // Type 'FormGroupTypeSafe<Address>' is not assignable to type 'FormControl | FormGroup | FormArray'.
+      //   Type 'FormGroupTypeSafe<Address>' is not assignable to type 'FormGroup'.
+      //     Types of property 'controls' are incompatible.
+      //       Type '{ street: AbstractControlTypeSafe<string>; country: AbstractControlTypeSafe<string>; zip: AbstractControlTypeSafe<string>; addressId?: AbstractControlTypeSafe<...> | undefined; }' is not assignable to type '{ [key: string]: AbstractControl; }'.
+      //         Property 'addressId' is incompatible with index signature.
+      //           Type 'AbstractControlTypeSafe<string | undefined> | undefined' is not assignable to type 'AbstractControl'.
+      //             Type 'undefined' is not assignable to type 'AbstractControl'.ts(2322)
+      // profile-editor.model.ts(7, 3): The expected type comes from property 'address' which is declared here on type 'FormGroupControlsOf<Profile>'
       address: this.fb.group<Address>({
         street: this.fb.control(''),
         country: this.fb.control(''),
