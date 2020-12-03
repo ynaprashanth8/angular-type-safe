@@ -1,0 +1,4 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<app-profile-editor [form]="profile"></app-profile-editor>
+<button type="submit" [disabled]="!form.valid">Submit</button>
+</form>
