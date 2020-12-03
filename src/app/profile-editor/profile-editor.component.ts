@@ -4,7 +4,10 @@ import {
   FormBuilderTypeSafe,
   FormGroupTypeSafe,
 } from '../helper/angular-type-safe';
-import { Address, Profile } from './profile-editor.model';
+//Cannot find module 'angular-typesafe-reactive-forms-helper' or its corresponding type declarations.ts(2307)
+// import { FormBuilderTypeSafe } from 'angular-typesafe-reactive-forms-helper'
+import { Address } from '../model/address.model';
+import { Profile } from './profile-editor.model';
 
 @Component({
   selector: 'app-profile-editor',
@@ -12,7 +15,7 @@ import { Address, Profile } from './profile-editor.model';
   styleUrls: ['./profile-editor.component.css'],
 })
 export class ProfileEditorComponent implements OnInit {
-  @Input() form: FormGroupTypeSafe<Profile>;
+  @Input() form!: FormGroupTypeSafe<Profile>;
 
   constructor(private fb: FormBuilderTypeSafe) {}
 
@@ -23,8 +26,12 @@ export class ProfileEditorComponent implements OnInit {
       name: this.fb.control(''),
       age: this.fb.control(''),
       email: this.fb.control(''),
+      // I am seeing the error when I have a Address interface extends a BaseModel interface
+      //If I remove the extends inerface it works fine
       address: this.fb.group<Address>({
         street: this.fb.control(''),
+        country: this.fb.control(''),
+        zip: this.fb.control(''),
       }),
     }));
   }

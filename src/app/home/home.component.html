@@ -1,4 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h1>Welcome to Home Page</h1>
 <app-profile-editor [form]="profile"></app-profile-editor>
+<div style="padding-top: 10px;">
 <button type="submit" [disabled]="!form.valid">Submit</button>
+</div>
 </form>
